@@ -3,102 +3,189 @@ import { toprakCV } from "../data/cvData";
 
 export default function ToprakCV() {
   const data = toprakCV;
-
   const [isOpen, setIsOpen] = useState(false);
 
-  const togglePicture = () => [
-    setIsOpen(!isOpen),
-  ]
+  const togglePicture = () => setIsOpen(!isOpen);
 
   return (
     <>
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 text-black font-mont p-8 flex justify-center items-center">
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6 shadow-2xl rounded-2xl overflow-hidden bg-white">
-        <div className="bg-cyan-700 font-baslik text-white p-6 flex flex-col items-center">
-          <img
-            src={data.photoUrl}
-            alt={data.name}
-            onClick={togglePicture}
-            className="w-36 h-36 cursor-pointer object-cover rounded-full border-4 border-white shadow-lg"
-          />
-          <h1 className="text-2xl font-bold mt-4">{data.name}</h1>
-          <h2 className="text-sm text-cyan-100">{data.title}</h2>
+      <div className="min-h-screen bg-gray-100 text-gray-900 font-sans p-8 flex justify-center items-center">
+        <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 shadow-lg rounded-lg bg-white overflow-hidden">
+          <aside className="bg-cyan-900 text-cyan-100 p-8 flex flex-col items-center space-y-6">
+            <img
+              src={data.photoUrl}
+              alt={data.name}
+              onClick={togglePicture}
+              className="w-36 h-36 rounded-full border-4 border-cyan-300 shadow-lg cursor-pointer object-cover"
+            />
+            <div className="text-center">
+              <h1 className="text-3xl font-bold">{data.name}</h1>
+              <p className="text-cyan-300 mt-1">{data.title}</p>
+            </div>
+            <div className="w-full">
+              <h2 className="text-xl font-semibold border-b border-cyan-300 pb-1 mb-2">Contact</h2>
+              <p>{data.contact.location}</p>
+              <p><a href={`mailto:${data.contact.email}`} className="hover:text-white">{data.contact.email}</a></p>
+              <p><a href={`tel:${data.contact.phone}`} className="hover:text-white">{data.contact.phone}</a></p>
+              <p><a href={data.contact.github} target="_blank" rel="noreferrer" className="hover:text-white">GitHub</a></p>
+              <p><a href={data.contact.linkledn} target="_blank" rel="noreferrer" className="hover:text-white">LinkedIn</a></p>
+            </div>
 
-          <div className="mt-6 w-full">
-            <h3 className="text-xl font-semibold mb-2 border-b border-white pb-1">Contact</h3>
-            <p className="text-sm form-alt">{data.contact.location}</p>
-            <p onClick={() => window.location.href = `mailto:${data.contact.email}`} className="text-sm cursor-pointer form-alt hover:underline">{data.contact.email}</p>
-            <p onClick={() => window.location.href = `tel:${data.contact.phone}`} className="text-sm cursor-pointer form-alt hover:underline">{data.contact.phone}</p>
-            <p onClick={() => window.open(`${data.contact.github}`, "_blank")} className="text-sm cursor-pointer form-alt hover:underline">GitHub</p>
-            <p onClick={() => window.open(`${data.contact.linkledn}`, "_blank")} className="text-sm cursor-pointer form-alt hover:underline">LinkedIn</p>
-          </div>
+            <div className="w-full">
+              <h2 className="text-xl font-semibold border-b border-cyan-300 pb-1 mb-2">Skills</h2>
+              <ul className="list-disc list-inside space-y-1">
+                {data.skills.map((skill) => (
+                  <li key={skill}>{skill}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="w-full">
+              <h2 className="text-xl font-semibold border-b border-cyan-300 pb-1 mb-2">Hobbies</h2>
+              <ul className="list-disc list-inside space-y-1">
+                {data.hobbies.map((hob) => (
+                  <li key={hob}>{hob}</li>
+                ))}
+              </ul>
+            </div>
+          </aside>
 
-          <div className="mt-6 w-full">
-            <h3 className="text-md font-semibold mb-2 border-b border-white pb-1">Skills</h3>
-            <ul className="text-sm form-alt list-disc list-inside">
-              {data.skills.map((skill) => (
-                <li key={skill}>{skill}</li>
+          <main className="md:col-span-2 p-10 max-h-[90vh] overflow-y-auto">
+
+            <section className="mb-10">
+              <h2 className="text-3xl font-bold text-cyan-900 border-b-2 border-cyan-400 pb-2 mb-4">About Me</h2>
+              <p className="text-gray-700 leading-relaxed">{data.summary}</p>
+            </section>
+            <section className="mb-10">
+              <h2 className="text-2xl font-semibold text-cyan-900 border-b border-cyan-300 pb-1 mb-4">Education</h2>
+              {data.education.map((edu) => (
+                <div key={edu.school} className="mb-6">
+                  <h3 className="text-lg font-semibold">{edu.school}</h3>
+                  <p className="italic text-gray-600">{edu.degree}</p>
+                  <span className="text-sm text-gray-500">{edu.year}</span>
+                </div>
               ))}
-            </ul>
-          </div>
+            </section>
 
-          <div className="mt-6 w-full">
-            <h3 className="text-md font-semibold mb-2 border-b border-white pb-1">Hobbies</h3>
-            <ul className="text-sm form-alt list-disc list-inside">
-              {data.hobbies.map((hob) => (
-                <li key={hob}>{hob}</li>
+            <section className="mb-10">
+              <h2 className="text-2xl font-semibold text-cyan-900 border-b border-cyan-300 pb-1 mb-4">Experience</h2>
+              {data.experience.map((exp) => (
+                <div key={exp.company} className="mb-6">
+                  <h3 className="text-lg font-semibold">{exp.position} <span className="text-sm font-normal text-gray-600">@ {exp.company}</span></h3>
+                  <p className="text-sm text-gray-500">{exp.year}</p>
+                  <p className="mt-1 text-gray-700">{exp.description}</p>
+                </div>
               ))}
-            </ul>
-          </div>
-        </div>
+            </section>
 
-        <div className="md:col-span-2 p-8">
-          <section>
-            <h2 className="text-3xl font-bold text-cyan-700 mb-4 border-b pb-2">About:</h2>
-            <p className="text-gray-800 leading-relaxed text-md">{data.summary}</p>
-          </section>
-
-          <section className="mt-8">
-            <h2 className="text-2xl font-bold text-cyan-700 mb-3 border-b pb-1">Education:</h2>
-            {data.education.map((edu) => (
-              <div key={edu.school} className="mb-4">
-                <p className="font-semibold text-lg">{edu.school}</p>
-                <p className="text-sm text-gray-700">{edu.degree}</p>
-                <p className="text-xs text-gray-500">{edu.year}</p>
+            <section className="mb-10">
+              <h2 className="text-2xl font-bold text-cyan-900 border-b-2 border-cyan-400 pb-2 mb-4 tracking-wide uppercase">Organizations</h2>
+              <div className="space-y-4">
+                {data.organizations.map((org) => (
+                  <div key={org.name}>
+                    <h3 className="text-lg font-semibold text-cyan-800">{org.name}</h3>
+                    <p className="text-sm text-gray-700 leading-relaxed">{org.description}</p>
+                  </div>
+                ))}
               </div>
-            ))}
+            </section>
+
+            <section className="mb-10">
+              <h2 className="text-2xl font-bold text-cyan-900 border-b-2 border-cyan-400 pb-2 mb-4 tracking-wide uppercase">Languages</h2>
+              <div className="space-y-2">
+                {data.languages.map((lang) => (
+                  <div key={lang.name} className="flex justify-between items-center">
+                    <span className="text-gray-800 font-medium">{lang.name}</span>
+                    <span className="italic text-gray-600">{lang.level}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="mb-10">
+              <h2 className="text-2xl font-bold text-cyan-900 border-b-2 border-cyan-400 pb-2 mb-4 tracking-wide uppercase">Courses</h2>
+              <div className="space-y-2">
+                {data.courses.map((course) => (
+                  <div key={course.name} className="flex justify-between items-center">
+                    <span className="text-gray-800 font-medium">{course.name}</span>
+                    <span className="italic text-gray-600">{course.from}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+          <section className="mb-10 px-4">
+            <h2 className="text-2xl font-semibold text-cyan-900 border-b-2 border-cyan-700 pb-2 mb-6">
+              Games
+            </h2>
+            <div className="flex flex-col space-y-6">
+              {data.games.map((game) => (
+                <div
+                  key={game.name}
+                  className="border border-gray-300 rounded-md p-4 hover:shadow-md transition-shadow duration-300 bg-white"
+                >
+                  <h3 className="text-xl font-semibold text-gray-900">{game.name}</h3>
+                  <p className="text-sm text-gray-500 italic">{game.engine}</p>
+                  <p className="mt-2 text-gray-700">{game.description}</p>
+                  {game.url && (
+                    <a
+                      href={game.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-block mt-3 text-blue-600 hover:text-blue-800 hover:underline break-words"
+                    >
+                      Visit Game
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
           </section>
 
-          <section className="mt-8">
-            <h2 className="text-2xl font-bold text-cyan-700 mb-3 border-b pb-1">Experience</h2>
-            {data.experience.map((exp) => (
-              <div key={exp.company} className="mb-6">
-                <p className="font-semibold text-lg">
-                  {exp.position} <span className="text-sm text-gray-600">@ {exp.company}</span>
-                </p>
-                <p className="text-xs text-gray-500">{exp.year}</p>
-                <p className="text-sm text-gray-800 mt-1">{exp.description}</p>
+            <section>
+              <h2 className="text-2xl font-semibold text-cyan-900 border-b border-cyan-300 pb-1 mb-6">Websites</h2>
+              <div className="grid gap-6 md:grid-cols-2">
+                {data.webSites.map((site) => (
+                  <div key={site.name} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition">
+                    <h4 className="font-semibold text-cyan-800">{site.name}</h4>
+                    <p className="text-gray-600 mb-2">{site.description}</p>
+                    <a href={site.url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-alt break-words">
+                      Visit Site
+                    </a>
+                  </div>
+                ))}
               </div>
-            ))}
+            </section>
+
+          <section className="mt-10">
+            <h2 className="text-2xl font-semibold text-cyan-900 border-b border-cyan-300 pb-1 mb-6">Interests</h2>
+            <div className="flex flex-wrap gap-3">
+              {data.interests.map((interest) => (
+                <span
+                  key={interest}
+                  className="px-4 py-1 bg-cyan-100 text-cyan-900 rounded-full text-sm font-medium shadow-sm hover:bg-cyan-200 transition"
+                >
+                  {interest}
+                </span>
+              ))}
+            </div>
           </section>
+
+          </main>
         </div>
       </div>
-    </div>
 
-    {/* Toglge Picture */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 animate-fade"
+          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
           onClick={() => setIsOpen(false)}
         >
           <img
             src={data.photoUrl}
             alt={data.name}
-            className="w-80 h-80 rounded-sm border-4 border-white object-cover shadow-2xl transform scale-75 opacity-0 animate-zoom"
+            className="w-80 h-80 rounded-full border-4 border-cyan-400 shadow-lg object-cover"
           />
         </div>
       )}
-    {/* Toggle Picture */}
     </>
   );
 }
